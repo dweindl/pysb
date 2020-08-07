@@ -47,7 +47,7 @@ class SelfExporter(object):
     This class is for pysb internal use only. Do not construct any instances.
 
     """
-    
+
     do_export = True
     default_model = None
     target_globals = None   # the globals dict to which we'll export our symbols
@@ -670,6 +670,14 @@ class MonomerPattern(object):
             return NotImplemented
 
     def __matmul__(self, other):
+        if isinstance(other, dict):
+            site_refs = other
+            # TODO validate
+            self.site_refs = site_refs
+            for site, reference_symbol in site_refs.items():
+                self.site_conditions[site] = StateReference(reference_symbol)
+            return self # TODO ComplexPattern?
+
         if not isinstance(other, Tag):
             return NotImplemented
 
@@ -1311,7 +1319,7 @@ class Parameter(Component, Symbol):
     def value(self, new_value):
         self.check_value(new_value)
         self._value = float(new_value)
-    
+
     def get_value(self):
         return self.value
 
@@ -1818,7 +1826,7 @@ class Model(object):
         `initials`.
     species : list of ComplexPattern
         List of all complexes which can be produced by the model, starting from
-        the initial conditions and successively applying the rules. Each 
+        the initial conditions and successively applying the rules. Each
         ComplexPattern is concrete.
     reactions : list of dict
         Structures describing each possible unidirectional reaction that can be
@@ -1996,7 +2004,7 @@ class Model(object):
         cset_used = (self.parameters_rules() | self.parameters_initial_conditions() |
                      self.parameters_compartments() | self.parameters_expressions())
         return self.parameters - cset_used
-    
+
     def expressions_constant(self):
         """Return a ComponentSet of constant expressions."""
         cset = ComponentSet(e for e in self.expressions
@@ -2603,6 +2611,10 @@ class WILD(Keyword):
     Equivalent to the "?" bond modifier in BNG."""
     pass
 
-
 warnings.simplefilter('always', ModelExistsWarning)
 warnings.simplefilter('always', SymbolExistsWarning)
+
+
+class StateReference():
+    def __init__(self, reference_symbol: str):
+        self.reference_symbol = reference_symbol

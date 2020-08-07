@@ -67,7 +67,7 @@ class BngGenerator(object):
             else:
                 size = c.size.name
             self.__content += ("  %s  %d  %s  %s\n") % (c.name, c.dimension, size, parent_name)
-        self.__content += "end compartments\n\n"        
+        self.__content += "end compartments\n\n"
 
     def generate_molecule_types(self):
         if not self.model.monomers:
@@ -258,6 +258,8 @@ def format_site_condition(site, state):
     # conditions on site B, site A on the reactant side must be set to WILD)
     elif state is pysb.WILD:
         state_code = '!?'
+    elif isinstance(state, pysb.StateReference):
+        state_code = f'%{state.reference_symbol}'
     else:
         raise ValueError("BNG generator has encountered an unknown element in "
                          "a rule pattern site condition.")
