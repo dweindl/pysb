@@ -407,6 +407,8 @@ def validate_site_value(state, monomer=None, site=None, _in_multistate=False):
                        state)
 
         return True
+    elif isinstance(state, StateReference):
+        return True
     else:
         return False
 
