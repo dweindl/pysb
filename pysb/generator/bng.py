@@ -259,7 +259,7 @@ def format_site_condition(site, state):
     elif state is pysb.WILD:
         state_code = '!?'
     elif isinstance(state, pysb.StateReference):
-        state_code = f'%{state.reference_symbol}'
+        state_code = f'%{state.name}'
     else:
         raise ValueError("BNG generator has encountered an unknown element in "
                          "a rule pattern site condition.")

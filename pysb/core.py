@@ -2618,5 +2618,27 @@ warnings.simplefilter('always', SymbolExistsWarning)
 
 
 class StateReference():
-    def __init__(self, reference_symbol: str):
-        self.reference_symbol = reference_symbol
+    """
+    Create new StateReference
+
+    Attributes:
+    -----------
+
+    name:
+        An identifier to refer to the state of the site this StateReference
+        is assigned to.
+
+        e.g. ...
+
+
+    """
+
+    def __init__(self, name: str):
+        if not Component._VARIABLE_NAME_REGEX.match(name):
+            raise InvalidComponentNameError(name)
+
+        self.name = name
+
+    def __repr__(self):
+        value = f"{self.__class__.__name__}({self.name})"
+        return value
