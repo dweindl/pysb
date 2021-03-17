@@ -288,7 +288,7 @@ class CupSodaSimulator(Simulator):
             if p[gpu].returncode:
                 raise SimulatorException(
                     "cupSODA GPU {} chunk {} exception:\n{}\n{}".format(
-                        gpu, chunk_idx, p_out.rstip("at line"), p_err.rstrip()
+                        gpu, chunk_idx, p_out.rstrip("at line"), p_err.rstrip()
                     )
                 )
             tout_run, trajectories_run = self._load_trajectories(
@@ -670,7 +670,7 @@ class CupSodaSimulator(Simulator):
     @staticmethod
     def _load_with_pandas(filename):
         data = pd.read_csv(filename, sep='\t', skiprows=None,
-                           header=None).as_matrix()
+                           header=None).to_numpy()
         return data
 
     @staticmethod

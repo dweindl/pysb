@@ -29,7 +29,7 @@ sampled at intervals of 10 seconds::
     >>> t = [0, 10, 20, 30, 40, 50, 60]
     >>> solver = Solver(model, t)
     >>> solver.run()
-    >>> print(solver.y[:, 1])
+    >>> print(solver.y[:, 0])
     [   0.   30.   60.   90.  120.  150.  180.]
 
 Creating a model
@@ -879,8 +879,15 @@ interacts with the protein *Bak* (residing in the membrane).
 Model calibration
 =================
 
+One option for model calibration in PySB is `PyDREAM`_, which is an
+implementation of the DREAM algorithm developed by Vrugt and ter Braak
+(2008) and Laloy and Vrugt (2012).
+
 Modules
 =======
+
+See :doc:`/modules/index` for further details on the various PySB
+modules and the options available.
 
 Miscellaneous
 =============
@@ -944,3 +951,5 @@ hierarchical name of the module from which ``Model()`` is called, e.g.
 .. _GraphViz: http://www.graphviz.org/
 
 .. _OmniGraffle: http://www.omnigroup.com/products/omnigraffle/
+
+.. _PyDREAM: https://pubmed.ncbi.nlm.nih.gov/29028896/
